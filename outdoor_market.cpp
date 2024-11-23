@@ -7,6 +7,7 @@
 using namespace std;
 using namespace std::chrono;
 
+// complexity(canPlace) = Ο(Μ)
 bool canPlace(const vector<pair<int, int>>& intervals, const int& n, const int& d) {
     int placed = 0;                             // none of the stores are located
     int lastPlaced = INT_MIN;                   // init starting position
@@ -44,6 +45,7 @@ int main() {
     auto start = high_resolution_clock::now();      // start = clock
     
     // sort the intervals such as f1 <= ... <= fn
+    // complexity(sort) = O(M*logM)
     sort(intervals.begin(), intervals.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
         return a.second < b.second;
     });
@@ -56,6 +58,7 @@ int main() {
 
     // binary search of mid
     // we search for mid = max{m : canPlace(interval, N, m) = true}
+    // complexity(binary_search) = O(logD), D = high-low
     while(low <= high) {
         int mid = (low +  high)/2;
         if(canPlace(intervals, N, mid)) {
@@ -72,5 +75,7 @@ int main() {
     auto finish = high_resolution_clock::now();         // finish = clock
     duration<double> elapsed = finish - start;          // duration
     printf("Algorithm Time: %f seconds.\n", elapsed.count());
+
+    // Total complexity is O(M*logM) + O(M*logD) = O(M*logM)
     return 0;
 }
