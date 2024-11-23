@@ -2,12 +2,10 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <chrono>
+#include <ctime>
 
 using namespace std;
-using namespace std::chrono;
 
-// complexity(canPlace) = Ο(Μ)
 bool canPlace(const vector<pair<int, int>>& intervals, const int& n, const int& d) {
     int placed = 0;                             // none of the stores are located
     int lastPlaced = INT_MIN;                   // init starting position
@@ -25,27 +23,24 @@ bool canPlace(const vector<pair<int, int>>& intervals, const int& n, const int& 
     return false;
 }
 
+// Total_Complexity = complexity(binary_search) * complexity(canPlace) + complexity(sort)
+// Total_complexity = O(logD) * O(M) + O(M*logM) = O(M*logM)
 int main() {
 
     // auto io_start = high_resolution_clock::now();
     int N, M;
-    cin >> N >> M;      // read N, M from stdin
-    vector<pair<int, int>> intervals;       // create vector to contain intervals [si, fi]
+    cin >> N >> M;                                  // read N, M from stdin
+    vector<pair<int, int>> intervals;               // create vector to contain intervals [si, fi]
 
     for(int i=0; i<M; i++) {
         int si, fi;
-        scanf("%d %d", &si, &fi);          // read interval [si, fi]
+        scanf("%d %d", &si, &fi);                   // read interval [si, fi]
         intervals.push_back(make_pair(si, fi));     // push [si, fi] into the interval
     }
 
-    // auto io_finish = high_resolution_clock::now();
-    // duration<double> io_elapsed = io_finish - io_start;
-    // printf("Time take for IO: %f seconds.\n", io_elapsed.count());
-
-    auto start = high_resolution_clock::now();      // start = clock
+    auto start = clock();                           // start = clock
     
     // sort the intervals such as f1 <= ... <= fn
-    // complexity(sort) = O(M*logM)
     sort(intervals.begin(), intervals.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
         return a.second < b.second;
     });
@@ -58,7 +53,6 @@ int main() {
 
     // binary search of mid
     // we search for mid = max{m : canPlace(interval, N, m) = true}
-    // complexity(binary_search) = O(logD), D = high-low
     while(low <= high) {
         int mid = (low +  high)/2;
         if(canPlace(intervals, N, mid)) {
@@ -70,12 +64,10 @@ int main() {
         }
     }
 
-    printf("%d\n", result);                             // print the result
+    printf("%d\n", result);                                     // print the result
 
-    auto finish = high_resolution_clock::now();         // finish = clock
-    duration<double> elapsed = finish - start;          // duration
-    printf("Algorithm Time: %f seconds.\n", elapsed.count());
-
-    // Total complexity is O(M*logM) + O(M*logD) = O(M*logM)
+    auto finish = clock();                                      // finish = clock
+    double duration = double(finish-start)/CLOCKS_PER_SEC;      // duration
+    printf("Algorithm Time: %f seconds.\n", duration);
     return 0;
 }
