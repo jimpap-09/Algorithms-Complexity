@@ -2,13 +2,13 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <ctime>
+// #include <ctime>
 
 using namespace std;
 
 bool canPlace(const vector<pair<int, int>>& intervals, const int& n, const int& d) {
     int placed = 0;                             // none of the stores are located
-    int lastPlaced = INT_MIN;                   // init starting position
+    int lastPlaced = 0;                         // init starting position
     for(const auto& interval : intervals) {     // for each interval check
         int start = interval.first;             // start for the start-position
         int end = interval.second;
@@ -38,8 +38,8 @@ int main() {
         intervals.push_back(make_pair(si, fi));     // push [si, fi] into the interval
     }
 
-    auto start = clock();                           // start = clock
-    
+    //auto start = clock();                           // start = clock
+
     // sort the intervals such as f1 <= ... <= fn
     sort(intervals.begin(), intervals.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
         return a.second < b.second;
@@ -54,7 +54,7 @@ int main() {
     // binary search of mid
     // we search for mid = max{m : canPlace(interval, N, m) = true}
     while(low <= high) {
-        int mid = (low +  high)/2;
+        int mid = (low + high)/2;
         if(canPlace(intervals, N, mid)) {
             result = mid;
             low = mid + 1;
@@ -66,8 +66,10 @@ int main() {
 
     printf("%d\n", result);                                     // print the result
 
+    /*
     auto finish = clock();                                      // finish = clock
     double duration = double(finish-start)/CLOCKS_PER_SEC;      // duration
     printf("Algorithm Time: %f seconds.\n", duration);
+    */
     return 0;
 }
