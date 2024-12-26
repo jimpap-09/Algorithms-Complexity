@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 int main() {
-    // read the number of guests and the size of tables
+    // read the number of guests and the size of tables ~ O(n)
     int N, K;
     cin >> N >> K;
     vector<int> h(N);
@@ -20,10 +20,10 @@ int main() {
         // find max h for that table
         // then calculate max h for the first i guests
         for (int j = 1; j <= K && i - j >= 0; ++j) {
-            max_h = max(max_h, h[i - j]);
-            dp[i] = max(dp[i], dp[i - j] + j * max_h);
+            max_h = max(max_h, h[i - j]);               // O(1)
+            dp[i] = max(dp[i], dp[i - j] + j * max_h);  // O(1)
         }
-    }
+    }                                                   // O(n*k)
     // return dp[N]
     cout << dp[N] << endl;
     return 0;
