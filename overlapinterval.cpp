@@ -1,3 +1,6 @@
+// find the maximum number of non overlapping intervals that can be chosen [si, fi]
+// from the standard input and print them on the standard output
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
